@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Heap {
 
-	private List<Integer> list;
+	private ArrayList<Integer> list;
 
 	public Heap() {
 		list = new ArrayList<Integer>();
@@ -30,7 +30,7 @@ public class Heap {
 		int bottomValue = list.get(list.size() - 1);
 		list.remove(list.size() - 1);
 		list.set(0, bottomValue);
-		siftDown(0);
+		siftDown(list, 0);
 	}
 
 	// Keep swapping child with parent until fixed.
@@ -57,7 +57,7 @@ public class Heap {
 		}
 	}
 
-	private void siftDown(int current) {
+	private void siftDown(ArrayList<Integer> list, int current) {
 		boolean isHeapFixed = false;
 
 		while (!isHeapFixed) {
@@ -92,9 +92,37 @@ public class Heap {
 			}
 		}
 	}
+	
+	// Take an existing binary tree and convert it to a max-heap
+	public void heapify(ArrayList<Integer> binaryTree) {
+		// Current begins as the first non-leaf parent index
+		int current = (int) Math.floor(binaryTree.size() / 2) - 1;
+		// We want to call siftDown only on all parents in the tree.
+		// So we decrement current by 1 to get the previous parent.
+		// We stop at root. Property of binary trees allows this.
+		
+		while (current >= 0) {
+			siftDown(binaryTree, current);
+			--current;
+		}
+	}
 
-	public void heapSort() {
-		// TODO:
+	// This method will destroy the heap.
+	public ArrayList<Integer> heapSort() {
+		ArrayList<Integer> sortedList = new ArrayList<Integer>();
+		
+		// Add the root of the heap to the sorted list
+		// Then remove it from the heap, and replace it with
+		// the bottom-most value. Call siftDown and repeat.
+		while (!list.isEmpty()) {
+			sortedList.add(list.get(0));
+			
+			if (!list.isEmpty()) {
+				list.set(0, list.remove(list.size() - 1));
+				siftDown(list, 0);
+			}
+		}
+		return sortedList;
 	}
 
 	private int getParent(int index) {
