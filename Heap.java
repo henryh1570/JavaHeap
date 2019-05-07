@@ -82,7 +82,7 @@ public class Heap {
 			}
 
 			// If there is at least 1 valid child, make the larger one the chosen.
-			// Then swap and repeat. Otherwise the heap is fixed.
+			// Then swap it with the current node and repeat. Otherwise the heap is fixed.
 			if (leftValue != Integer.MIN_VALUE || rightChild != Integer.MIN_VALUE) {
 				chosenChild = (leftValue > rightValue ? leftChild : rightChild);
 				swap(current, chosenChild);
@@ -123,6 +123,14 @@ public class Heap {
 			}
 		}
 		return sortedList;
+	}
+	
+	public int getSize() {
+		return list.size();
+	}
+	
+	public boolean isEmpty() {
+		return list.isEmpty();
 	}
 
 	private int getParent(int index) {
